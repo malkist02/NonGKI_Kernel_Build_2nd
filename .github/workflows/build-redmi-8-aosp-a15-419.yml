@@ -25,7 +25,7 @@ env:
   GCC_32_BRANCH : ""
 
   DEFCONFIG_SOURCE: ""
-  DEFCONFIG_NAME: vendor/msm8953-perf_defconfig vendor/akari.config"
+  DEFCONFIG_NAME: vendor/msm8953-perf_defconfig"
   DEFCONFIG_ORIGIN_IMAGE: ""
   DEFCONFIG_FROM_BOOT: false
 
@@ -62,7 +62,7 @@ env:
   SUSFS_FOLDER_FIXED: "redmi_8_419" # Fill in your patch prefix directory here. Leave it blank if there isn't one. -> your_folder
   SUSFS_PATCH_FIXED: "susfs_fixed" # Fill in your patches here. If there are multiple patches, please separate them with a comma. Leave it blank if there isn't one. -> patch1,patch2
 
-  REKERNEL_ENABLE: "true" # if u need Re:Kernel.
+  REKERNEL_ENABLE: "false" # if u need Re:Kernel.
   DROIDSPACES_ENABLE: "false" # if u need Droidspaces or LXC/Docker.
   NOMOUNT_ENABLE: "false" # if u need NoMount.
 
@@ -79,19 +79,19 @@ env:
   BASEBAND_GUARD_BOOT: "false" #if u want to protect boot partition.
 
   GENERATE_DTB: "false" # if u kernel need DTB , but cannot auto generate it. (Only Anykernel3).
-  GENERATE_CHIP: "xiaomi-sdm439" # only supported for qcom and mediatek.
+  GENERATE_CHIP: "xiaomi-sdm450" # only supported for qcom and mediatek.
 
   BUILD_DEBUGGER: "false" # Output build errors.
   SKIP_PATCH: "true" # Ignore errors found in Patch Debugger.
 
   BUILD_OTHER_CONFIG: "true" # Merge config files.
-  MERGE_CONFIG_FILES: "vendor/xiaomi-sdm439.config"
+  MERGE_CONFIG_FILES: "vendor/akari.config"
 
   FREE_MORE_SPACE: "false" # if u want get more space, enabled it.
 
 jobs:
   build-kernel:
-    name: Redmi 8 (Based AOSP A15) (Kernel 4.19)
+    name: Redmi note 4 (Based AOSP A15) (Kernel 4.19)
     runs-on: ubuntu-latest # u can changed to ubuntu 22.04, and need container set ubuntu-latest
     container: ubuntu:focal # if u need use arch linux -> archlinux/archlinux:latest or ubuntu 20.04 -> ubuntu:focal
     env:
@@ -120,7 +120,7 @@ jobs:
           # Only ${{ env.DEVICE_NAME }} use it.
           cd $GITHUB_WORKSPACE/device_kernel
 
-          sed -i 's/\(CONFIG_LOCALVERSION="[^"]*\)-ksu"/\1"/' ./arch/arm64/configs/vendor/xiaomi-sdm439.config
+          sed -i 's/\(CONFIG_LOCALVERSION="[^"]*\)-ksu"/\1"/' ./arch/arm64/configs/vendor/akari.config
 
       - name: 🧰 Patch Kernel of Re:Kernel
         uses: ./.github/workflows/patch-rekernel
